@@ -49,7 +49,7 @@ in_mod = st.selectbox(
 if in_mod == "Audio":
     set_mod = "Reproducir audio"
 elif in_mod == "Visual":
-    input_language = "Reproducir video"
+    set_mod = "Reproducir video"
 elif in_mod == "Háptico":
     set_mod = "Activar vibración"
 st.write(" La acción es:" , set_mod)
