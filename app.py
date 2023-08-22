@@ -36,7 +36,7 @@ with col2:
        st.write('El tacto es fundamental para tu interfaz')
         
 st.subheader("Uso de Botones")
-if st.button('Say hello'):
-    st.write('Why hello there')
+if st.button('Presiona el botón'):
+    st.write('Gracias por presionar')
 else:
-    st.write('Goodbye')
+    st.write('Adios')
