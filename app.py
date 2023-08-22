@@ -23,19 +23,10 @@ with col1:
     resp = st.checkbox('Estoy de acuerdo')
     if resp:
        st.write('Correcto!')
-   # st.radio(
-   #     "Set text input label visibility 👉",
-   #     key="visibility",
-   #     options=["visible", "hidden", "collapsed"],
-   # )
-   # st.text_input(
-   #     "Placeholder for the other text input widget",
-   #     "This is a placeholder",
-    #    key="placeholder",
-    #)
+  
 
 with col2:
-    st.subheader("Esta es la primera columna")
+    st.subheader("Esta es la segunda columna")
     modo = st.radio("Que Modalidad es la principal en tu interfaz", ('Visual', 'auditiva', 'Táctil'))
     if modo == 'Visual':
        st.write('La vista es fundamental para tu interfaz')
