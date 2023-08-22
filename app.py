@@ -3,7 +3,7 @@ from PIL import Image
 
 st.title(" Mi Primera App!!")
 
-st.subheader("En este espacio comienzo a desarrollar mis aplicaciones para interfaces multimodales.")
+st.header("En este espacio comienzo a desarrollar mis aplicaciones para interfaces multimodales.")
 st.write("Facilmente puedo realizar backend y frontend.")
 image = Image.open('Interfaces Mult2.png')
 
@@ -18,10 +18,11 @@ st.subheader("Ahora usemos 2 Columnas")
 col1, col2 = st.columns(2)
 
 with col1:
-    st.write("Primera Columna")
-    agree = st.checkbox('I agree')
-    if agree:
-       st.write('Great!')
+    st.subheader("Esta es la primera columna")
+    st.write("Las interfaces multimodales mejoran la experiencia de usuario")
+    resp = st.checkbox('Estoy de acuerdo')
+    if resp:
+       st.write('Correcto!')
    # st.radio(
    #     "Set text input label visibility 👉",
    #     key="visibility",
@@ -34,7 +35,7 @@ with col1:
     #)
 
 with col2:
-    st.write("Esta es la segunda columna")
+    st.subheader("Esta es la primera columna")
     modo = st.radio("Que Modalidad es la principal en tu interfaz", ('Visual', 'auditiva', 'Táctil'))
     if modo == 'Visual':
        st.write('La vista es fundamental para tu interfaz')
