@@ -7,4 +7,4 @@ st.subheader("En este espacio comienzo a desarrollar mis aplicaciones para inter
 st.write("Facilmente puedo realizar backend y frontend.")
 image = Image.open('Interfaces Mult2.png')
 
-st.image(image, caption='Sunrise by the mountains')
+st.image(image, caption='Interfaces multimodales')
