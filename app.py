@@ -2,38 +2,56 @@
 import streamlit as st
 from PIL import Image
 
-# ---------- Configuración de página (no cambia la lógica) ----------
+# ---------- Config (no cambia la lógica) ----------
 st.set_page_config(page_title="Mi Primera App", page_icon="✨", layout="centered")
 
-# ---------- Estilos: Dark theme alto contraste (solo estética) ----------
+# ---------- Estilos: Dark theme ALTO CONTRASTE ----------
 st.markdown("""
 <style>
 :root{
   --radius: 16px;
-  /* Paleta alto contraste */
-  --bgA: #0b1120;   /* fondo base */
-  --bgB: #0f172a;   /* fondo gradiente */
-  --panel: #111827; /* panel oscuro sólido */
-  --panel-border: #1f2937; 
-  --text: #f8fafc;  /* texto principal */
-  --muted: #cbd5e1; /* texto secundario */
-  --input: #0f172a; /* fondo inputs */
+  /* Paleta con contraste real */
+  --bgA: #0b1120;        /* fondo base */
+  --bgB: #0f172a;        /* fondo gradiente */
+  --panel: #111827;      /* panel sólido */
+  --panel-border: #1f2937;
+  --text: #f8fafc;       /* texto principal */
+  --muted: #cbd5e1;      /* texto secundario */
+  --input: #0f172a;      /* fondo inputs */
   --input-border: #334155;
-  --focus: #22d3ee; /* foco accesible */
-  --primaryA: #2563eb; /* azul 600 */
-  --primaryB: #1d4ed8; /* azul 700 */
+  --focus: #22d3ee;      /* foco visible */
+  --primaryA: #2563eb;   /* azul 600 */
+  --primaryB: #1d4ed8;   /* azul 700 */
 }
 
-html, body, [class*="css"] {
+/* Fondo oscuro en el contenedor raiz de Streamlit */
+[data-testid="stAppViewContainer"]{
   background: linear-gradient(180deg, var(--bgA) 0%, var(--bgB) 100%) !important;
+  color: var(--text) !important;
+}
+html, body{
   color: var(--text) !important;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
 }
 main .block-container{ max-width: 980px; padding-top: 2rem; padding-bottom: 3rem; }
 
+/* Forzar color de texto en TODOS los contenedores de markdown y labels */
+[data-testid="stMarkdownContainer"], 
+[data-testid="stMarkdownContainer"] *, 
+label, label *, 
+.stRadio, .stRadio *, 
+.stCheckbox, .stCheckbox *, 
+.stSelectbox label, 
+.stTextInput label, 
+.stTextArea label,
+.stSlider label, 
+.stNumberInput label {
+  color: var(--text) !important;
+  opacity: 1 !important;  /* nada “apagado” */
+}
+
 /* Títulos y textos */
-h1, h2, h3 { letter-spacing: -.01em; color: #f9fafb; }
-p, label, span, li { color: var(--text); }
+h1, h2, h3 { letter-spacing: -.01em; color: #f9fafb !important; }
 .caption, .small, small { color: var(--muted) !important; }
 
 /* Imagen */
@@ -46,38 +64,42 @@ div[data-testid="stImage"] img{
 .stTextInput input,
 .stTextArea textarea,
 .stSelectbox div[data-baseweb="select"] > div,
-.stRadio > div, .stCheckbox > div {
-  background: transparent !important;
-  color: var(--text) !important;
-}
-.stTextInput input,
-.stTextArea textarea,
-.stSelectbox div[data-baseweb="select"] > div {
+.stMultiSelect > div > div {
   background: var(--input) !important;
   border: 1px solid var(--input-border) !important;
+  color: var(--text) !important;
   border-radius: 12px !important;
 }
 .stTextArea textarea::placeholder,
 .stTextInput input::placeholder{
-  color: #94a3b8 !important; /* visible pero no compite */
+  color: #94a3b8 !important;
 }
 
-/* Estados de foco visibles */
+/* Radio / Checkbox círculos y bordes más visibles */
+input[type="radio"], input[type="checkbox"]{
+  accent-color: var(--primaryA) !important;
+}
+.stRadio, .stCheckbox{
+  color: var(--text) !important;
+}
+
+/* Estados de foco muy visibles */
 :focus, :focus-visible,
 .stTextInput input:focus,
-.stTextArea textarea:focus {
+.stTextArea textarea:focus,
+.stSelectbox div[data-baseweb="select"] > div:focus{
   outline: 2px solid var(--focus) !important;
   outline-offset: 2px !important;
   box-shadow: none !important;
 }
 
-/* Botones: primario sólido y legible */
+/* Botones sólidos y legibles */
 .stButton > button{
   border-radius: 999px;
   padding: .72rem 1.15rem;
   border: 1px solid var(--panel-border);
-  background: #1f2937; /* neutro sólido */
-  color: var(--text);
+  background: #1f2937; /* neutro */
+  color: var(--text) !important;
   transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
   box-shadow: 0 8px 20px rgba(0,0,0,.35);
 }
@@ -86,16 +108,18 @@ div[data-testid="stImage"] img{
   background: #273244;
 }
 
-/* Botón más importante: color primario */
-div:has(> button[kind="secondary"]) > button,  /* fallback */
-.stButton > button:first-child {
+/* Botón primario: azul con alto contraste */
+.stButton > button:focus,
+.stButton > button:active { outline: 2px solid var(--focus) !important; }
+.stButton > button[kind="primary"], /* si Streamlit marca alguno como primario */
+.stButton > button:first-child {    /* primer botón por defecto */
   background: linear-gradient(90deg, var(--primaryA), var(--primaryB)) !important;
   color: #ffffff !important;
   border: 0 !important;
   box-shadow: 0 14px 36px rgba(37,99,235,.45);
 }
 
-/* Sidebar oscuro */
+/* Sidebar oscuro con mismo contraste */
 section[data-testid="stSidebar"] > div:first-child{
   background: #0c1324;
   border-right: 1px solid var(--panel-border);
@@ -112,7 +136,7 @@ section[data-testid="stSidebar"] *{ color: var(--text) !important; }
 </style>
 """, unsafe_allow_html=True)
 
-# ---------- TU APP (idéntica en arquitectura y lógica) ----------
+# ---------- TU APP (misma arquitectura y lógica) ----------
 st.title(" Mi Primera App!!")
 
 st.header("En este espacio comienzo a desarrollar mis aplicaciones para interfaces multimodales.")
@@ -170,4 +194,5 @@ with st.sidebar:
         "Escoge la modalidad a usar",
         ("Visual", "Auditiva","Háptica")
     )
-    # aca haz la aplicacioon en un tema oscuro y pon colores en los botones que resalten de buena manera
+    # estética únicamente; arquitectura intacta
+
